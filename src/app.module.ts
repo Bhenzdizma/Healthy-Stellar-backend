@@ -67,6 +67,9 @@ import { EventStoreModule } from './event-store/event-store.module';
 import { BullBoardAuthMiddleware } from './queues/middleware/bull-board-auth.middleware';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { IdempotencyModule } from './idempotency/idempotency.module';
+import { IdempotencyInterceptor } from './idempotency/idempotency.interceptor';
+import { DlqModule } from './dlq/dlq.module';
 
 @Module({
   imports: [
@@ -142,6 +145,8 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     ConsistencyCheckerModule,
 
     WebhooksModule,
+    IdempotencyModule,
+    DlqModule,
     EventEmitterModule.forRoot(),
  main
   ],
@@ -168,6 +173,10 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TenantInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: IdempotencyInterceptor,
     },
     {
       provide: APP_FILTER,
