@@ -1,5 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ConfigDriftService } from './config/config-drift.service';
+import { envValidationSchema } from './config/env.validation';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -72,6 +74,8 @@ import { WebhooksModule } from './webhooks/webhooks.module';
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
       cache: true,
+      validationSchema: envValidationSchema,
+      validationOptions: { abortEarly: false },
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfig,
@@ -139,6 +143,7 @@ import { WebhooksModule } from './webhooks/webhooks.module';
   controllers: [AppController],
   providers: [
     AppService,
+    ConfigDriftService,
     {
       provide: APP_INTERCEPTOR,
       useClass: PiiRedactionInterceptor,
