@@ -2,10 +2,15 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailQueueProducer } from './email-queue.producer';
 import { EmailQueueConsumer } from './email-queue.consumer';
 import { EmailLookupService } from './email-lookup.service';
 import { MailModule } from '../mail/mail.module';
+import { Patient } from '../patients/entities/patient.entity';
+import { User } from '../auth/entities/user.entity';
+import { MedicalRecord } from '../medical-records/entities/medical-record.entity';
+import { AuditLogEntity } from '../common/audit/audit-log.entity';
 
 export const EMAIL_QUEUE = 'email-notifications';
 
@@ -34,6 +39,7 @@ export const EMAIL_QUEUE = 'email-notifications';
         removeOnFail: 50,
       },
     }),
+    TypeOrmModule.forFeature([Patient, User, MedicalRecord, AuditLogEntity]),
     MailModule,
   ],
   providers: [EmailQueueProducer, EmailQueueConsumer, EmailLookupService],
