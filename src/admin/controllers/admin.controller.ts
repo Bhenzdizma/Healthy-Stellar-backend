@@ -22,7 +22,6 @@ import {
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PolicyGuard } from '../../rbac/guards/policy.guard';
 import { RequireAdmin } from '../../rbac/decorators/policy.decorator';
-import { ApiKeyThrottlerGuard } from '../../common/throttler/api-key-throttler.guard';
 import { IpAllowlistGuard } from '../../common/guards/ip-allowlist.guard';
 
 @ApiTags('Admin - API Keys')
