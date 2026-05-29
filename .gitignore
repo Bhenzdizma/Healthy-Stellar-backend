@@ -6,6 +6,8 @@ node_modules/
 # Build
 /dist
 /build
+src/**/*.js
+src/**/*.js.map
 .todo
 test.txt
 
