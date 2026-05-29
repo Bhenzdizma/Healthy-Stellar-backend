@@ -13,6 +13,7 @@ import { ReportJob } from './entities/report-job.entity';
 import { AccessControlModule } from '../access-control/access-control.module';
 import { ProviderPatientModule } from '../provider-patient/provider-patient.module';
 import { QUEUE_NAMES } from '../queues/queue.constants';
+import { MailModule } from '../Email Notification Service for Critical Access Events/mail.module';
 
 import { MedicalRecordsService } from './services/medical-records.service';
 import { ClinicalTemplatesService } from './services/clinical-templates.service';
@@ -34,11 +35,14 @@ import { ClinicalNotesController } from './controllers/clinical-notes.controller
 
 import { ReportProcessor } from './processors/report.processor';
 
+import { Patient } from '../patients/entities/patient.entity';
+
 @Module({
   imports: [
     ConfigModule,
     AccessControlModule,
     ProviderPatientModule,
+    MailModule,
     TypeOrmModule.forFeature([
       MedicalRecord,
       MedicalRecordVersion,
@@ -48,6 +52,7 @@ import { ReportProcessor } from './processors/report.processor';
       MedicalAttachment,
       MedicalRecordConsent,
       ReportJob,
+      Patient,
     ]),
     BullModule.registerQueue({
       name: QUEUE_NAMES.REPORTS,
